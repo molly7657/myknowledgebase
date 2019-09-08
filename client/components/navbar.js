@@ -23,6 +23,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
               <Link to="/mydata" style={{padding: 15, color: 'black'}}>
                 My Knowledge Base
               </Link>
+              <Link to="/newdata" style={{padding: 15, color: 'black'}}>
+                Upload New Document
+              </Link>
               <a
                 href="#"
                 onClick={handleClick}
@@ -52,25 +55,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     </AppBar>
     <hr />
   </div>
-  //     {/* {isLoggedIn ? (
-  //       <div>
-  //         {/* The navbar will show these links after you log in */}
-  //         <Link to="/home">Home</Link>
-  //         <a href="#" onClick={handleClick}>
-  //           Logout
-  //         </a>
-  //       </div>
-  //     ) : (
-  //       <div>
-  //         {/* The navbar will show these links before you log in */}
-  //         <Link to="/login">Login</Link>
-  //         <Link to="/signup">Sign Up</Link>
-  //       </div>
-  //     )} */}
-
-  //   </nav>
-  //   <hr />
-  // </div>
 )
 
 /**
