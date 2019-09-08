@@ -1,7 +1,7 @@
 {
-  "name": "boilermaker",
+  "name": "pkb-coding-challenge",
   "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "PKB Coding Challenge!",
   "engines": {
     "node": ">= 7.0.0"
   },
@@ -41,6 +41,7 @@
   "author": "Fullstack Academy of Code",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^4.4.1",
     "axios": "^0.19.0",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^6.0.0",
