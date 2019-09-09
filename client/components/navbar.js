@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <AppBar position="static" style={{background: '#90C0AC'}}>
+    <AppBar position="static" style={{background: '#DC5A5E'}}>
       <h1>The Personal Knowledge Base</h1>
       {isLoggedIn ? (
         <Toolbar>
@@ -40,13 +40,13 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         <Toolbar>
           <Typography variant="button">
             {/* The navbar will show these links before you log in */}
-            <Link to="/home" style={{padding: 15}}>
+            <Link to="/home" style={{padding: 15, color: 'black'}}>
               Home
             </Link>
-            <Link to="/login" style={{padding: 15}}>
+            <Link to="/login" style={{padding: 15, color: 'black'}}>
               Login
             </Link>
-            <Link to="/signup" style={{padding: 15}}>
+            <Link to="/signup" style={{padding: 15, color: 'black'}}>
               Sign Up
             </Link>
           </Typography>
