@@ -11,11 +11,13 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:resourceId', async (req, res, next) => {
+router.get('/files/:resourceId', async (req, res, next) => {
   try {
     const resourceId = Number(req.params.resourceId)
-    const resource = await Resource.findByPk(resourceId)
-    res.json(resource)
+    const resource = await Resource.getObject(1)
+    console.log(resource)
+    const newJSON = JSON.parse(resource.Body.toString())
+    res.send(newJSON)
   } catch (err) {
     next(err)
   }

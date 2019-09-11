@@ -35,32 +35,42 @@ Resource.postToAWS = async function(userId, filepath) {
       userId
     }
   }
-  const fileStream = fs.createReadStream('../../Desktop/superlatives.pdf')
+  const fileStream = fs.createReadStream('../../Desktop/4015.jpg')
   fileStream.on('error', function(err) {
     console.log('File Error', err)
   })
   uploadParams.Body = fileStream
   var path = require('path')
-  uploadParams.Key =
-    userId + '/' + path.basename('../../Desktop/superlatives.pdf')
+  uploadParams.Key = userId + '/' + path.basename('../../Desktop/4015.jpg')
   let awsLocation = `this hasn't been changed`
   await s3.upload(uploadParams, function(err, data) {
     if (err) {
       console.log('Error', err)
     }
     if (data) {
-      awsLocation = data.Location
+      Resource.create({
+        name: path.basename('../../Desktop/4015.jpg'),
+        type: 'file',
+        Url: data.Location,
+        userId
+      })
       console.log('this file has been uploaded to AWS!')
     }
   })
-  Resource.create({
-    name: path.basename('../../Desktop/superlatives.pdf'),
-    type: 'file',
-    Url: uploadParams.key,
-    userId
-  })
 }
 
+Resource.getObject = async function(userId) {
+  const params = {
+    Bucket: 'personalknowledgebase',
+    // Key: `${userId}/${req.body.name}`
+    Key: '1/superlatives.pdf'
+  }
+  const file = await s3.getObject(params, function(err, data) {
+    if (err) console.log(err, err.stack)
+    else console.log(data)
+  })
+  return file
+}
 //this method gives users capability to arrange their uploaded documents and links by date.
 Resource.sortByDate = async function(userId) {
   const resources = await Resource.findAll({
@@ -75,9 +85,12 @@ Resource.searchItems = async function(userId, searchTerm) {
   const resources = await Resource.findAll({
     where: {
       userId,
-      $like: `%${searchTerm}%`
+      name: {
+        $like: `%${searchTerm}%`
+      }
     }
   })
+  return resources
 }
 
 module.exports = Resource

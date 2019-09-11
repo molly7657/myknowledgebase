@@ -20,10 +20,10 @@ const Navbar = ({handleClick, isLoggedIn}) => (
                 {' '}
                 Home
               </Link>
-              <Link to="/mydata" style={{padding: 15, color: 'black'}}>
+              <Link to="/resources" style={{padding: 15, color: 'black'}}>
                 My Knowledge Base
               </Link>
-              <Link to="/newdata" style={{padding: 15, color: 'black'}}>
+              <Link to="/upload" style={{padding: 15, color: 'black'}}>
                 Upload New Document
               </Link>
               <a
