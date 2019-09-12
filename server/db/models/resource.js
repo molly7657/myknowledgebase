@@ -20,8 +20,8 @@ const Resource = db.define('resource', {
     //   isUrl: true
     // }
   },
-  datePublished: {
-    type: Sequelize.DATE
+  tags: {
+    type: Sequelize.STRING
   }
 })
 
@@ -35,13 +35,13 @@ Resource.postToAWS = async function(userId, filepath) {
       userId
     }
   }
-  const fileStream = fs.createReadStream('../../Desktop/4015.jpg')
+  const fileStream = fs.createReadStream(filepath)
   fileStream.on('error', function(err) {
     console.log('File Error', err)
   })
   uploadParams.Body = fileStream
   var path = require('path')
-  uploadParams.Key = userId + '/' + path.basename('../../Desktop/4015.jpg')
+  uploadParams.Key = userId + '/' + path.basename(filepath)
   let awsLocation = `this hasn't been changed`
   await s3.upload(uploadParams, function(err, data) {
     if (err) {
@@ -49,7 +49,7 @@ Resource.postToAWS = async function(userId, filepath) {
     }
     if (data) {
       Resource.create({
-        name: path.basename('../../Desktop/4015.jpg'),
+        name: path.basename(filepath),
         type: 'file',
         Url: data.Location,
         userId

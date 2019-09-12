@@ -19,3 +19,27 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.draganddrop {
+  width: 400;
+  height: 400;
+  position: absolute;
+  left: 50px;
+  top: 600px;
+  padding: 15px;
+  z-index: 15;
+  background-color: white;
+  border-style: dotted;
+}
+
+.addarticle {
+  width: 400;
+  height: 400;
+  position: absolute;
+  left: 50px;
+  top: 300px;
+  padding: 20px;
+  z-index: 15;
+  background-color: white;
+  border-style: dotted;
+}

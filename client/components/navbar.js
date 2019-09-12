@@ -23,9 +23,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
               <Link to="/resources" style={{padding: 15, color: 'black'}}>
                 My Knowledge Base
               </Link>
-              <Link to="/upload" style={{padding: 15, color: 'black'}}>
-                Upload New Document
-              </Link>
               <a
                 href="#"
                 onClick={handleClick}
