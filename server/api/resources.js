@@ -38,8 +38,9 @@ router.post('/:userId/articles', async (req, res, next) => {
 })
 
 router.post('/:userId/files', async (req, res, next) => {
+  console.log('this is the backend formData', req.body.fileUrl)
   try {
-    Resource.postToAWS(req.params.userId, req.body.file, req.body.filename)
+    Resource.postToAWS(req.params.userId, req.body.fileUrl)
     res.sendStatus(201)
   } catch (error) {
     next(error)

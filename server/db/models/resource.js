@@ -29,36 +29,27 @@ const Resource = db.define('resource', {
 Resource.postToAWS = async function(userId, file) {
   const uploadParams = {
     Bucket: bucketName,
-    Key: '',
+    Key: 'new file',
     Body: '',
     Metadata: {
       userId
     }
   }
-
-  // const reader = new FileReader()
-  // reader.readAsDataURL(file)
-  // reader.onload = function() {
-  //   const fileContent = reader.result
-  //   console.log(fileContent)
-  // }
-  const objectURL = Buffer.from(file)
-  console.log('this is the object URL?', objectURL)
-  const fileStream = fs.createReadStream(objectURL)
+  var fs = require('fs')
+  var fileStream = fs.createReadStream(file)
+  console.log(fileStream)
   fileStream.on('error', function(err) {
     console.log('File Error', err)
   })
   uploadParams.Body = fileStream
   var path = require('path')
-  uploadParams.Key = userId + '/' + path.basename(objectURL)
-  let awsLocation = `this hasn't been changed`
   await s3.upload(uploadParams, function(err, data) {
     if (err) {
       console.log('Error', err)
     }
     if (data) {
       Resource.create({
-        name: file.name,
+        name: uploadParams.Key,
         type: 'file',
         Url: data.Location,
         userId
