@@ -26,7 +26,7 @@ const Resource = db.define('resource', {
 })
 
 //this method allows the user to upload a file to AWS when called upon in the POST route.
-Resource.postToAWS = async function(userId, filepath) {
+Resource.postToAWS = async function(userId, file) {
   const uploadParams = {
     Bucket: bucketName,
     Key: '',
@@ -35,13 +35,22 @@ Resource.postToAWS = async function(userId, filepath) {
       userId
     }
   }
-  const fileStream = fs.createReadStream(filepath)
+
+  // const reader = new FileReader()
+  // reader.readAsDataURL(file)
+  // reader.onload = function() {
+  //   const fileContent = reader.result
+  //   console.log(fileContent)
+  // }
+  const objectURL = Buffer.from(file)
+  console.log('this is the object URL?', objectURL)
+  const fileStream = fs.createReadStream(objectURL)
   fileStream.on('error', function(err) {
     console.log('File Error', err)
   })
   uploadParams.Body = fileStream
   var path = require('path')
-  uploadParams.Key = userId + '/' + path.basename(filepath)
+  uploadParams.Key = userId + '/' + path.basename(objectURL)
   let awsLocation = `this hasn't been changed`
   await s3.upload(uploadParams, function(err, data) {
     if (err) {
@@ -49,7 +58,7 @@ Resource.postToAWS = async function(userId, filepath) {
     }
     if (data) {
       Resource.create({
-        name: path.basename(filepath),
+        name: file.name,
         type: 'file',
         Url: data.Location,
         userId
@@ -59,18 +68,18 @@ Resource.postToAWS = async function(userId, filepath) {
   })
 }
 
-Resource.getObject = async function(userId) {
-  const params = {
-    Bucket: 'personalknowledgebase',
-    // Key: `${userId}/${req.body.name}`
-    Key: '1/superlatives.pdf'
-  }
-  const file = await s3.getObject(params, function(err, data) {
-    if (err) console.log(err, err.stack)
-    else console.log(data)
-  })
-  return file
-}
+// Resource.getObject = async function(userId) {
+//   const params = {
+//     Bucket: 'personalknowledgebase',
+//     // Key: `${userId}/${req.body.name}`
+//     Key: '1/superlatives.pdf'
+//   }
+//   const file = await s3.getObject(params, function(err, data) {
+//     if (err) console.log(err, err.stack)
+//     else console.log(data)
+//   })
+//   return file
+// }
 //this method gives users capability to arrange their uploaded documents and links by date.
 Resource.sortByDate = async function(userId) {
   const resources = await Resource.findAll({

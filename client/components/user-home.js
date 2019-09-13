@@ -41,7 +41,6 @@ class UserHome extends React.Component {
   }
 
   async handleFileDrop(files) {
-    console.log('name:', files[0].name, 'File on front end', files[0])
     event.preventDefault()
     const res = await axios.post(`/api/resources/${this.props.userId}/files`, {
       file: files[0],
