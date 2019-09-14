@@ -20,9 +20,9 @@ class KnowledgeBase extends React.Component {
   render() {
     return (
       <div>
-        <h1 align="center">Your Knowledge Base</h1>
+        <h1 align="center">My Knowledge Base</h1>
         <div />
-        <Grid container spacing={24} style={{padding: 24}}>
+        <Grid container spacing={20} style={{padding: 20}}>
           {Array.isArray(this.state.resources) &&
             this.state.resources.map(resource => (
               <Grid item xs={12} sm={6} lg={4} xl={3} style={{padding: 5}}>

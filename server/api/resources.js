@@ -3,7 +3,7 @@ const {Resource} = require('../db/models')
 const {isAdmin, isCorrectUser} = require('./utils')
 const multerMiddleware = require('./multermiddleware')
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', isCorrectUser, async (req, res, next) => {
   const userId = req.params.userId
   try {
     const articles = await Resource.findAll({
@@ -15,17 +15,19 @@ router.get('/:userId', async (req, res, next) => {
   }
 })
 
-// router.get('/files/:resourceId', async (req, res, next) => {
-//   try {
-//     const resourceId = Number(req.params.resourceId)
-//     const resource = await Resource.findAll({where:{userId}})
-//     console.log(resource)
-//     const newJSON = JSON.parse(resource.Body.toString())
-//     res.send(newJSON)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
+router.post('/:userId/searchresults', isCorrectUser, async (req, res, next) => {
+  try {
+    const userId = req.params.userId
+    const searchresults = Resource.searchItems(
+      userId,
+      req.body.searchterm,
+      req.body.dateSearch
+    )
+    res.json(searchresults)
+  } catch (err) {
+    next(err)
+  }
+})
 
 router.post('/:userId/articles', isCorrectUser, async (req, res, next) => {
   try {
