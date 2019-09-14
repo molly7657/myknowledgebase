@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {Resource} = require('../db/models')
-const {isAdmin} = require('./utils')
+const {isAdmin, isCorrectUser} = require('./utils')
+const multerMiddleware = require('./multermiddleware')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -23,7 +24,7 @@ router.get('/', async (req, res, next) => {
 //   }
 // })
 
-router.post('/:userId/articles', async (req, res, next) => {
+router.post('/:userId/articles', isCorrectUser, async (req, res, next) => {
   try {
     await Resource.create({
       name: req.body.name,
@@ -37,14 +38,21 @@ router.post('/:userId/articles', async (req, res, next) => {
   }
 })
 
-router.post('/:userId/files', async (req, res, next) => {
-  console.log('this is the backend formData', req.body.fileUrl)
-  try {
-    Resource.postToAWS(req.params.userId, req.body.fileUrl)
-    res.sendStatus(201)
-  } catch (error) {
-    next(error)
+router.post(
+  '/:userId/files',
+  multerMiddleware.single('file'),
+  async (req, res, next) => {
+    try {
+      await Resource.create({
+        name: req.file.originalname,
+        type: 'file',
+        Url: req.file.location
+      })
+      res.sendStatus(201)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
 module.exports = router

@@ -9,31 +9,17 @@ function isAdmin(req, res, next) {
 }
 
 function isCorrectUser(req, res, next) {
-  let id = parseInt(req.params.userId)
+  let id = parseInt(req.params.userId, 10)
   if (req.user && req.user.id === id) {
     next()
   } else {
-    res.send('Not Correct User')
+    res.status(405).send('Not Correct User')
   }
   console.log('req.user', req.user.id)
   console.log('params', id)
 }
 
-async function isUser(req, res, next) {
-  const request = req.body
-  try {
-    const user = await User.findbyPk(request.user.id)
-    if (user) {
-      next()
-    }
-    res.send('not a User')
-  } catch (error) {
-    next(error)
-  }
-}
-
 module.exports = {
   isCorrectUser,
-  isUser,
   isAdmin
 }

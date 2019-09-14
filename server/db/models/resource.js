@@ -26,31 +26,32 @@ const Resource = db.define('resource', {
 })
 
 //this method allows the user to upload a file to AWS when called upon in the POST route.
-Resource.postToAWS = async function(userId, file) {
+Resource.postToAWS = async function(userId, pdfFile, fileName) {
   const uploadParams = {
     Bucket: bucketName,
-    Key: 'new file',
-    Body: '',
+    Key: fileName + new Date(),
+    Body: pdfFile,
     Metadata: {
       userId
     }
   }
-  var fs = require('fs')
-  var fileStream = fs.createReadStream('../../Desktop/superlatives.pdf')
-  console.log(fileStream)
-  fileStream.on('error', function(err) {
-    console.log('File Error', err)
-  })
-  uploadParams.Body = fileStream
-  var path = require('path')
-  uploadParams.Key = path.basename('../../Desktop/superlatives.pdf')
+
+  // var fs = require('fs')
+  // var fileStream = fs.createReadStream('../../Desktop/superlatives.pdf')
+  // console.log(fileStream)
+  // fileStream.on('error', function(err) {
+  //   console.log('File Error', err)
+  // })
+  // uploadParams.Body = fileStream
+  // var path = require('path')
+  // uploadParams.Key = path.basename('../../Desktop/superlatives.pdf')
   await s3.upload(uploadParams, function(err, data) {
     if (err) {
       console.log('Error', err)
     }
     if (data) {
       Resource.create({
-        name: uploadParams.Key,
+        name: fileName,
         type: 'file',
         Url: data.Location,
         userId

@@ -42,13 +42,20 @@ class UserHome extends React.Component {
 
   async handleFileDrop(files) {
     event.preventDefault()
-    const newFile = URL.createObjectURL(files[0])
-    console.log('this is the object URL', newFile)
-    const res = await axios.post(`/api/resources/${this.props.userId}/files`, {
-      fileUrl: newFile,
-      filename: files[0].name
-    })
-    console.log(res.data)
+    const pdf = files[0]
+    const newForm = new FormData()
+    newForm.append('file', pdf)
+    console.log('this is newForm', newForm.get('file'))
+    try {
+      const res = await axios.post(
+        `/api/resources/${this.props.userId}/files`,
+        newForm
+      )
+      console.log(res.data)
+      //make sucess alert
+    } catch (error) {
+      //make failed alert
+    }
   }
 
   render() {
