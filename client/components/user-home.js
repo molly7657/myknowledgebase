@@ -106,9 +106,6 @@ class UserHome extends React.Component {
   }
 }
 
-/**
- * CONTAINER
- */
 const mapState = state => {
   return {
     email: state.user.email,
@@ -117,10 +114,3 @@ const mapState = state => {
 }
 
 export default connect(mapState)(UserHome)
-
-/**
- * PROP TYPES
- */
-UserHome.propTypes = {
-  email: PropTypes.string
-}

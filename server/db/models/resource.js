@@ -1,9 +1,5 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const AWS = require('aws-sdk')
-const s3 = new AWS.S3()
-const bucketName = 'personalknowledgebase'
-const fs = require('fs')
 
 const Resource = db.define('resource', {
   name: {
@@ -25,54 +21,6 @@ const Resource = db.define('resource', {
   }
 })
 
-//this method allows the user to upload a file to AWS when called upon in the POST route.
-Resource.postToAWS = async function(userId, pdfFile, fileName) {
-  const uploadParams = {
-    Bucket: bucketName,
-    Key: fileName + new Date(),
-    Body: pdfFile,
-    Metadata: {
-      userId
-    }
-  }
-
-  // var fs = require('fs')
-  // var fileStream = fs.createReadStream('../../Desktop/superlatives.pdf')
-  // console.log(fileStream)
-  // fileStream.on('error', function(err) {
-  //   console.log('File Error', err)
-  // })
-  // uploadParams.Body = fileStream
-  // var path = require('path')
-  // uploadParams.Key = path.basename('../../Desktop/superlatives.pdf')
-  await s3.upload(uploadParams, function(err, data) {
-    if (err) {
-      console.log('Error', err)
-    }
-    if (data) {
-      Resource.create({
-        name: fileName,
-        type: 'file',
-        Url: data.Location,
-        userId
-      })
-      console.log('this file has been uploaded to AWS!')
-    }
-  })
-}
-
-// Resource.getObject = async function(userId) {
-//   const params = {
-//     Bucket: 'personalknowledgebase',
-//     // Key: `${userId}/${req.body.name}`
-//     Key: '1/superlatives.pdf'
-//   }
-//   const file = await s3.getObject(params, function(err, data) {
-//     if (err) console.log(err, err.stack)
-//     else console.log(data)
-//   })
-//   return file
-// }
 //this method gives users capability to arrange their uploaded documents and links by date.
 Resource.sortByDate = async function(userId) {
   const resources = await Resource.findAll({
@@ -82,17 +30,37 @@ Resource.sortByDate = async function(userId) {
   return resources
 }
 
-//this method retrieves items that have the key search words in the title.
-Resource.searchItems = async function(userId, searchTerm) {
-  const resources = await Resource.findAll({
-    where: {
-      userId,
-      name: {
-        $like: `%${searchTerm}%`
-      }
+//this method retrieves items that have the key search words in the title, and gives users the option to sort descending if they so choose, otherwise data would be retrieved by ascending order.
+Resource.searchItems = async function(userId, searchTerm, dateSearch) {
+  try {
+    if (dateSearch === 'descending') {
+      const resources = await Resource.findAll({
+        where: {
+          userId,
+          name: {
+            $like: `%${searchTerm}%`
+          },
+          order: [['createdAt', 'DESC']]
+        }
+      })
+      return resources
+    } else {
+      const resources = await Resource.findAll({
+        where: {
+          userId,
+          name: {
+            $like: `%${searchTerm}%`
+          },
+          order: [['createdAt', 'ASC']]
+        }
+      })
+      return resources
     }
-  })
-  return resources
+  } catch (err) {
+    console.error(err)
+  }
 }
+
+module.exports = Resource
 
 module.exports = Resource

@@ -3,9 +3,12 @@ const {Resource} = require('../db/models')
 const {isAdmin, isCorrectUser} = require('./utils')
 const multerMiddleware = require('./multermiddleware')
 
-router.get('/', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
+  const userId = req.params.userId
   try {
-    const articles = await Resource.findAll()
+    const articles = await Resource.findAll({
+      where: {userId}
+    })
     res.json(articles)
   } catch (err) {
     next(err)
@@ -46,7 +49,8 @@ router.post(
       await Resource.create({
         name: req.file.originalname,
         type: 'file',
-        Url: req.file.location
+        Url: req.file.location,
+        userId: req.params.userId
       })
       res.sendStatus(201)
     } catch (error) {
