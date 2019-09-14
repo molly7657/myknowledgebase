@@ -1,97 +1,33 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
+import Grid from '@material-ui/core/Grid'
 
 /**
  * COMPONENT
  */
-class UserHome extends React.Component {
+export default class KnowledgeBase extends React.Component {
   constructor() {
     super()
     this.state = {
-      name: '',
-      Url: '',
-      tags: ''
+      resources: ''
     }
-    this.handleArticleSubmit = this.handleArticleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleFileDrop = this.handleFileDrop.bind(this)
-  }
-
-  handleChange(event) {
-    event.preventDefault()
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  async handleArticleSubmit(event) {
-    event.preventDefault()
-    const res = await axios.post(
-      `/api/resources/${this.props.userId}/articles`,
-      {
-        name: event.target.name.value,
-        type: 'link',
-        Url: event.target.Url.value
-      }
-    )
-    this.setState(res.data)
-  }
-
-  async handleFileDrop(files) {
-    event.preventDefault()
-    const newFile = URL.createObjectURL(files[0])
-    console.log('this is the object URL', newFile)
-    const res = await axios.post(`/api/resources/${this.props.userId}/files`, {
-      fileUrl: newFile,
-      filename: files[0].name
-    })
-    console.log(res.data)
   }
 
   render() {
     return (
       <div>
-        <img src="https://miro.medium.com/max/3600/1*oOYoJk8jvDGhGUETH7wlKQ.gif" />
-        <Dropzone onDrop={acceptedFiles => this.handleFileDrop(acceptedFiles)}>
-          {({getRootProps, getInputProps}) => (
-            <section>
-              <div {...getRootProps()} className="draganddrop">
-                <input {...getInputProps()} />
-                <p>Drag 'n' drop file here, or click to add a file!</p>
-              </div>
-            </section>
-          )}
-        </Dropzone>
-        <div className="addarticle">
-          <h4>Add an article to PKB</h4>
-          <form onSubmit={this.handleArticleSubmit}>
-            <label htmlFor="name">Name of Article:</label>
-            <input
-              type="text"
-              name="name"
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
-            <label htmlFor="Url">URL of Article:</label>
-            <input
-              type="text"
-              name="Url"
-              value={this.state.Url}
-              onChange={this.handleChange}
-            />
-            <label htmlFor="tags">Tags:</label>
-            <input
-              type="text"
-              name="tags"
-              value={this.state.tags}
-              onChange={this.handleChange}
-            />
-            <button type="submit" className="button">
-              Submit
-            </button>
-          </form>
-        </div>
+        <h1 align="center">Your Knowledge Base</h1>
+        <p>hi</p>
+        <div />
+        {/* <Grid container spacing={24} style={{padding: 24}}>
+          {Array.isArray(this.props.resources) &&
+            this.props.resources.map(resource => (
+              <Grid item xs={12} sm={6} lg={4} xl={3} style={{padding: 5}}>
+                <Resource key={resource.id} resource={resource} />
+              </Grid>
+            ))}
+        </Grid> */}
       </div>
     )
   }
@@ -100,18 +36,18 @@ class UserHome extends React.Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
-  return {
-    email: state.user.email,
-    userId: state.user.id
-  }
-}
+// const mapState = state => {
+//   return {
+//     email: state.user.email,
+//     userId: state.user.id
+//   }
+// }
 
-export default connect(mapState)(UserHome)
+// export default connect(mapState)(UserHome)
 
-/**
- * PROP TYPES
- */
-UserHome.propTypes = {
-  email: PropTypes.string
-}
+// /**
+//  * PROP TYPES
+//  */
+// UserHome.propTypes = {
+//   email: PropTypes.string
+// }

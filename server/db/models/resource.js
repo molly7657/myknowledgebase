@@ -36,13 +36,14 @@ Resource.postToAWS = async function(userId, file) {
     }
   }
   var fs = require('fs')
-  var fileStream = fs.createReadStream(file)
+  var fileStream = fs.createReadStream('../../Desktop/superlatives.pdf')
   console.log(fileStream)
   fileStream.on('error', function(err) {
     console.log('File Error', err)
   })
   uploadParams.Body = fileStream
   var path = require('path')
+  uploadParams.Key = path.basename('../../Desktop/superlatives.pdf')
   await s3.upload(uploadParams, function(err, data) {
     if (err) {
       console.log('Error', err)
