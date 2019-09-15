@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const db = require('../db')
 
 const Resource = db.define('resource', {
@@ -33,26 +34,23 @@ Resource.sortByDate = async function(userId) {
 //this method retrieves items that have the key search words in the title, and gives users the option to sort descending if they so choose, otherwise data would be retrieved by ascending order.
 Resource.searchItems = async function(userId, searchTerm, dateSearch) {
   try {
+    console.log(searchTerm)
     if (dateSearch === 'descending') {
       const resources = await Resource.findAll({
         where: {
-          userId,
-          name: {
-            $like: `%${searchTerm}%`
-          },
-          order: [['createdAt', 'DESC']]
-        }
+          name: {[Op.like]: `%${searchTerm}%`},
+          userId
+        },
+        order: [['createdAt', 'DESC']]
       })
       return resources
     } else {
       const resources = await Resource.findAll({
         where: {
-          userId,
-          name: {
-            $like: `%${searchTerm}%`
-          },
-          order: [['createdAt', 'ASC']]
-        }
+          name: {[Op.like]: `%${searchTerm}%`},
+          userId
+        },
+        order: [['createdAt', 'ASC']]
       })
       return resources
     }

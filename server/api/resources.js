@@ -18,11 +18,12 @@ router.get('/:userId', isCorrectUser, async (req, res, next) => {
 router.post('/:userId/searchresults', isCorrectUser, async (req, res, next) => {
   try {
     const userId = req.params.userId
-    const searchresults = Resource.searchItems(
+    const searchresults = await Resource.searchItems(
       userId,
       req.body.searchterm,
-      req.body.dateSearch
+      req.body.sort
     )
+    console.log('search results on the backend', searchresults)
     res.json(searchresults)
   } catch (err) {
     next(err)
