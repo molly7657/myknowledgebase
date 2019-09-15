@@ -35,10 +35,10 @@ Resource.sortByDate = async function(userId) {
 Resource.searchItems = async function(userId, searchTerm, dateSearch) {
   try {
     console.log(searchTerm)
-    if (dateSearch === 'descending') {
+    if (dateSearch === 'Descending') {
       const resources = await Resource.findAll({
         where: {
-          name: {[Op.like]: `%${searchTerm}%`},
+          name: {[Op.iLike]: `%${searchTerm}%`},
           userId
         },
         order: [['createdAt', 'DESC']]
@@ -47,7 +47,7 @@ Resource.searchItems = async function(userId, searchTerm, dateSearch) {
     } else {
       const resources = await Resource.findAll({
         where: {
-          name: {[Op.like]: `%${searchTerm}%`},
+          name: {[Op.iLike]: `%${searchTerm}%`},
           userId
         },
         order: [['createdAt', 'ASC']]

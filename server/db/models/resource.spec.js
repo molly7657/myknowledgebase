@@ -87,58 +87,76 @@ describe('Resource model', () => {
       expect(kirstenStuff[0].name).to.equal('Buffy the Vampire Slayer')
     })
   })
-
-  xdescribe('class method: findByIngredient', () => {
-    it('finds coffee by ingredient', async () => {
+  describe('class method: searchItems', () => {
+    it('returns all search results that match name of article or PDF sorted in ascending or descending order', async () => {
+      const molly = await User.create({email: 'molly.lupton@gmail.com'})
+      const kirsten = await User.create({email: 'ilovemolly@gmail.com'})
       await Promise.all([
-        Coffee.create({
-          name: 'Cafe au Lait',
-          ingredients: ['french press', 'scalded milk']
+        Resource.create({
+          name: 'Important Javascript Article',
+          Url:
+            'https://personalknowledgebase.s3.us-east-2.amazonaws.com/test/1_oOYoJk8jvDGhGUETH7wlKQ.gif',
+          type: 'file',
+          createdAt: '2019-09-13 15:08:51.359-04',
+          userId: molly.id
         }),
-        Coffee.create({
-          name: 'Galao',
-          ingredients: ['espresso', 'foam']
+        Resource.create({
+          name: 'How To Do Front-End Things In React',
+          Url:
+            'https://medium.com/@_erikaybar/one-developers-condensed-intro-to-react-68cbf078f992',
+          type: 'link',
+          createdAt: '2019-09-09 15:08:51.359-04',
+          userId: kirsten.id
         }),
-        Coffee.create({
-          name: 'Mocha',
-          ingredients: ['espresso', 'hot cocoa', 'whipped cream']
+        Resource.create({
+          name: 'Learning Multer Middleware in Javascript',
+          Url:
+            'https://blog.newrelic.com/engineering/8-ways-become-a-better-coder/',
+          type: 'link',
+          createdAt: '2019-09-11 15:08:51.359-04',
+          userId: molly.id
+        }),
+        Resource.create({
+          name: 'Why Javascript is Cool',
+          Url:
+            'https://blog.newrelic.com/engineering/8-ways-become-a-better-coder/',
+          type: 'link',
+          createdAt: '2019-09-15 15:08:51.359-04',
+          userId: molly.id
+        }),
+        Resource.create({
+          name: 'reacthooks.pdf',
+          Url:
+            'https://personalknowledgebase.s3.us-east-2.amazonaws.com/test/Buffy-The-Vampire-Slayer-20th-Anniversary-1.jpg',
+          type: 'file',
+          createdAt: '2019-08-08 15:08:51.359-04',
+          userId: kirsten.id
+        }),
+        Resource.create({
+          name: 'WhY I aM gOoD cOdEr',
+          Url:
+            'https://personalknowledgebase.s3.us-east-2.amazonaws.com/test/4015.jpg',
+          type: 'file',
+          createdAt: '2019-09-14 15:08:51.359-04',
+          userId: molly.id
         })
       ])
-      const drinksWithEspresso = await Coffee.findByIngredient('espresso')
-      const drinksWithWhippedCream = await Coffee.findByIngredient(
-        'whipped cream'
+
+      const mySortedStuff = await Resource.searchItems(
+        molly.id,
+        'javascript',
+        'Descending'
       )
-
-      expect(drinksWithEspresso.length).to.equal(2)
-      expect(drinksWithEspresso.some(drink => drink.name === 'Mocha')).to.equal(
-        true
+      const kirstenStuff = await Resource.searchItems(
+        kirsten.id,
+        'rea',
+        'Ascending'
       )
-      expect(drinksWithEspresso.some(drink => drink.name === 'Galao')).to.equal(
-        true
-      )
-
-      expect(drinksWithWhippedCream.length).to.equal(1)
-      expect(
-        drinksWithWhippedCream.some(drink => drink.name === 'Mocha')
-      ).to.equal(true)
-    })
-  })
-
-  xdescribe('hooks', () => {
-    // because EVERYTHING in Cody's Cafe is made with love ♥
-    it('adds "love" to ingredients if not included', async () => {
-      const coffee = await Coffee.create({
-        name: 'Cafe con Leche',
-        ingredients: ['coffee', 'warm milk']
-      })
-
-      expect(coffee.ingredients.indexOf('love') > -1).to.equal(true)
-
-      await coffee.update({
-        ingredients: ['coffee', 'hot milk']
-      })
-
-      expect(coffee.ingredients.indexOf('love') > -1).to.equal(true)
+      expect(mySortedStuff.length).to.equal(3)
+      expect(kirstenStuff.length).to.equal(2)
+      expect(mySortedStuff[0].name).to.equal('Why Javascript is Cool')
+      expect(mySortedStuff[1].name).to.equal('Important Javascript Article')
+      expect(kirstenStuff[0].name).to.equal('reacthooks.pdf')
     })
   })
 })
