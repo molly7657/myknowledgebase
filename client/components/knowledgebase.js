@@ -54,7 +54,6 @@ class KnowledgeBase extends React.Component {
         searchterm: searchString
       }
     )
-    console.log('this is res.data on frontend', res.data)
     this.setState({resources: res.data})
   }
 

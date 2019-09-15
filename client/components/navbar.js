@@ -9,13 +9,14 @@ import Typography from '@material-ui/core/Typography'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <AppBar position="static" style={{background: '#DC5A5E'}}>
-      <h1>The Personal Knowledge Base</h1>
+    <AppBar position="static" style={{background: '#E88EB8'}}>
+      <h1 style={{padding: 15, color: 'black'}} align="right">
+        The Personal Knowledge Base
+      </h1>
       {isLoggedIn ? (
         <Toolbar>
           <Typography variant="button">
             <div align="right">
-              {/* The navbar will show these links after you log in */}
               <Link to="/home" style={{padding: 15, color: 'black'}}>
                 {' '}
                 Home
@@ -36,7 +37,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       ) : (
         <Toolbar>
           <Typography variant="button">
-            {/* The navbar will show these links before you log in */}
             <Link to="/home" style={{padding: 15, color: 'black'}}>
               Home
             </Link>
@@ -54,9 +54,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
   </div>
 )
 
-/**
- * CONTAINER
- */
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id
@@ -73,9 +70,6 @@ const mapDispatch = dispatch => {
 
 export default connect(mapState, mapDispatch)(Navbar)
 
-/**
- * PROP TYPES
- */
 Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired

@@ -43,3 +43,7 @@ form div {
   background-color: white;
   border-style: dotted;
 }
+
+.navbarheading {
+  padding: 15;
+}

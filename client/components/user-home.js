@@ -1,12 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
 
-/**
- * COMPONENT
- */
 class UserHome extends React.Component {
   constructor() {
     super()
@@ -52,9 +48,8 @@ class UserHome extends React.Component {
         newForm
       )
       console.log(res.data)
-      //make sucess alert
     } catch (error) {
-      //make failed alert
+      console.error(error)
     }
   }
 

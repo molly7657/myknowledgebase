@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const {Resource} = require('../db/models')
-const {isAdmin, isCorrectUser} = require('./utils')
+const {isCorrectUser} = require('./utils')
 const multerMiddleware = require('./multermiddleware')
 
 router.get('/:userId', isCorrectUser, async (req, res, next) => {
@@ -23,7 +23,6 @@ router.post('/:userId/searchresults', isCorrectUser, async (req, res, next) => {
       req.body.searchterm,
       req.body.sort
     )
-    console.log('search results on the backend', searchresults)
     res.json(searchresults)
   } catch (err) {
     next(err)
