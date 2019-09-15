@@ -542,9 +542,12 @@ var Resource = function Resource(props) {
     gutterBottom: true,
     variant: "headline",
     component: "h2"
-  }, props.resource.name)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_3__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, props.resource.name)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_3__["default"], null, props.resource.type === 'link' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: props.resource.Url,
     target: "_blank"
+  }, props.resource.name), props.resource.type === 'file' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: props.resource.Url,
+    download: props.resource.name
   }, props.resource.name))));
 };
 

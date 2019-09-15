@@ -24,9 +24,16 @@ export const Resource = props => {
           </Typography>
         </CardContent>
         <CardActions>
-          <a href={props.resource.Url} target="_blank">
-            {props.resource.name}
-          </a>
+          {props.resource.type === 'link' && (
+            <a href={props.resource.Url} target="_blank">
+              {props.resource.name}
+            </a>
+          )}
+          {props.resource.type === 'file' && (
+            <a href={props.resource.Url} download={props.resource.name}>
+              {props.resource.name}
+            </a>
+          )}
         </CardActions>
       </Card>
     </div>
