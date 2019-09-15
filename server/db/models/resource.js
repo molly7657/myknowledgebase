@@ -12,10 +12,10 @@ const Resource = db.define('resource', {
     allowNull: false
   },
   Url: {
-    type: Sequelize.STRING
-    // validate: {
-    //   isUrl: true
-    // }
+    type: Sequelize.STRING,
+    validate: {
+      isUrl: true
+    }
   },
   tags: {
     type: Sequelize.STRING
