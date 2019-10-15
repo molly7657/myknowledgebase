@@ -754,28 +754,27 @@ function (_React$Component) {
                 pdf = files[0];
                 newForm = new FormData();
                 newForm.append('file', pdf);
-                console.log('this is newForm', newForm.get('file'));
-                _context2.prev = 5;
-                _context2.next = 8;
+                _context2.prev = 4;
+                _context2.next = 7;
                 return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post("/api/resources/".concat(this.props.userId, "/files"), newForm);
 
-              case 8:
+              case 7:
                 res = _context2.sent;
                 console.log(res.data);
-                _context2.next = 15;
+                _context2.next = 14;
                 break;
 
-              case 12:
-                _context2.prev = 12;
-                _context2.t0 = _context2["catch"](5);
+              case 11:
+                _context2.prev = 11;
+                _context2.t0 = _context2["catch"](4);
                 console.error(_context2.t0);
 
-              case 15:
+              case 14:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[5, 12]]);
+        }, _callee2, this, [[4, 11]]);
       }));
 
       function handleFileDrop(_x2) {

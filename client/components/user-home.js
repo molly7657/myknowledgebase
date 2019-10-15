@@ -41,7 +41,6 @@ class UserHome extends React.Component {
     const pdf = files[0]
     const newForm = new FormData()
     newForm.append('file', pdf)
-    console.log('this is newForm', newForm.get('file'))
     try {
       const res = await axios.post(
         `/api/resources/${this.props.userId}/files`,
