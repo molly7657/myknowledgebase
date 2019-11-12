@@ -15,8 +15,6 @@ function isCorrectUser(req, res, next) {
   } else {
     res.status(405).send('Not Correct User')
   }
-  console.log('req.user', req.user.id)
-  console.log('params', id)
 }
 
 module.exports = {

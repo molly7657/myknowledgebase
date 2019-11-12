@@ -6,7 +6,6 @@ const bucketName = require('../../secrets')
 const s3 = new aws.S3()
 
 const findKey = (req, file, cb) => {
-  console.log('file.originalname: ', file.originalname)
   cb(null, file.originalname)
 }
 

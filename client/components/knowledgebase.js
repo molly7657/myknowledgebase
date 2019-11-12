@@ -29,7 +29,6 @@ class KnowledgeBase extends React.Component {
 
   handleChange(event) {
     event.preventDefault()
-    console.log(event.target.value)
     this.setState({
       sort: event.target.value
     })

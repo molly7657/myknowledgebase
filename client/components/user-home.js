@@ -9,7 +9,9 @@ class UserHome extends React.Component {
     this.state = {
       name: '',
       Url: '',
-      tags: ''
+      tag1: '',
+      tag2: '',
+      tag3: ''
     }
     this.handleArticleSubmit = this.handleArticleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -25,12 +27,33 @@ class UserHome extends React.Component {
 
   async handleArticleSubmit(event) {
     event.preventDefault()
+    let newTag1 = ''
+    let newTag2 = ''
+    let newTag3 = ''
+    for (let i = 0; i < event.target.tag1.value.length; i++) {
+      if (event.target.tag1.value[i] !== ' ') {
+        newTag1 += event.target.tag1.value[i].toLowerCase()
+      }
+    }
+    for (let i = 0; i < event.target.tag2.value.length; i++) {
+      if (event.target.tag2.value[i] !== ' ') {
+        newTag2 += event.target.tag2.value[i].toLowerCase()
+      }
+    }
+    for (let i = 0; i < event.target.tag3.value.length; i++) {
+      if (event.target.tag3.value[i] !== ' ') {
+        newTag3 += event.target.tag3.value[i].toLowerCase()
+      }
+    }
     const res = await axios.post(
       `/api/resources/${this.props.userId}/articles`,
       {
         name: event.target.name.value,
         type: 'link',
-        Url: event.target.Url.value
+        Url: event.target.Url.value,
+        tag1: newTag1,
+        tag2: newTag2,
+        tag3: newTag3
       }
     )
     this.setState(res.data)
@@ -46,7 +69,6 @@ class UserHome extends React.Component {
         `/api/resources/${this.props.userId}/files`,
         newForm
       )
-      console.log(res.data)
     } catch (error) {
       console.error(error)
     }
@@ -83,11 +105,23 @@ class UserHome extends React.Component {
               value={this.state.Url}
               onChange={this.handleChange}
             />
-            <label htmlFor="tags">Tags:</label>
+            <label htmlFor="tag2">Add up to three tags:</label>
             <input
               type="text"
-              name="tags"
-              value={this.state.tags}
+              name="tag1"
+              value={this.state.tag1}
+              onChange={this.handleChange}
+            />
+            <input
+              type="text"
+              name="tag2"
+              value={this.state.tag2}
+              onChange={this.handleChange}
+            />
+            <input
+              type="text"
+              name="tag3"
+              value={this.state.tag3}
               onChange={this.handleChange}
             />
             <button type="submit" className="button">

@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const db = require('../db')
+const Tag = require('./tags')
 
 const Resource = db.define('resource', {
   name: {
@@ -16,9 +17,6 @@ const Resource = db.define('resource', {
     validate: {
       isUrl: true
     }
-  },
-  tags: {
-    type: Sequelize.STRING
   }
 })
 
@@ -34,7 +32,6 @@ Resource.sortByDate = async function(userId) {
 //this method retrieves items that have the key search words in the title, and gives users the option to sort descending if they so choose, otherwise data would be retrieved by ascending order.
 Resource.searchItems = async function(userId, searchTerm, dateSearch) {
   try {
-    console.log(searchTerm)
     if (dateSearch === 'Descending') {
       const resources = await Resource.findAll({
         where: {
@@ -59,6 +56,15 @@ Resource.searchItems = async function(userId, searchTerm, dateSearch) {
   }
 }
 
-module.exports = Resource
+Resource.prototype.findTags = async function() {
+  try {
+    const tags = await this.findAll({
+      include: [{model: Tag}]
+    })
+    return tags
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 module.exports = Resource

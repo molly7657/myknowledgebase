@@ -42,6 +42,7 @@ export const Resource = props => {
             </a>
           )}
         </CardActions>
+        {/* {props.resource.tags && props.resource.tags.map(tag => `#${tag.name}`)} */}
       </Card>
     </div>
   )

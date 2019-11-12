@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Resource} = require('../server/db/models')
+const {User, Resource, Tag} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -18,6 +18,33 @@ async function seed() {
       type: 'link',
       Url: 'www.google.com',
       userId: 1
+    })
+  ])
+
+  await Promise.all([
+    Tag.create({
+      name: 'react',
+      imageUrl: './tagpics/react.png'
+    }),
+    Tag.create({
+      name: 'javascript',
+      imageUrl: './tagpics/javascript.png'
+    }),
+    Tag.create({
+      name: 'node',
+      imageUrl: './tagpics/node.png'
+    }),
+    Tag.create({
+      name: 'postgressql',
+      imageUrl: './tagpics/postgressql.png'
+    }),
+    Tag.create({
+      name: 'reacthooks',
+      imageUrl: './tagpics/hooks.png'
+    }),
+    Tag.create({
+      name: 'python',
+      imageUrl: './tagpics/python.png'
     })
   ])
 
