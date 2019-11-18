@@ -8,9 +8,9 @@ router.get('/:userId', isCorrectUser, async (req, res, next) => {
   const userId = req.params.userId
   try {
     const articles = await Resource.findAll({
-      where: {userId}
+      where: {userId},
+      include: [{model: Tag}]
     })
-    articles.findTags()
     res.json(articles)
   } catch (err) {
     next(err)

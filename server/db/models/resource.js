@@ -56,15 +56,4 @@ Resource.searchItems = async function(userId, searchTerm, dateSearch) {
   }
 }
 
-Resource.prototype.findTags = async function() {
-  try {
-    const tags = await this.findAll({
-      include: [{model: Tag}]
-    })
-    return tags
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 module.exports = Resource
